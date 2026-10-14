@@ -6,6 +6,6 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan(basePackages = "com.usermanagement.api.service")
-@Import(PersistenceConfig.class)
+@Import({PersistenceConfig.class, SecurityConfig.class})
 public class RootConfig {
 }

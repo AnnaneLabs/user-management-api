@@ -6,26 +6,18 @@ import com.usermanagement.api.service.HelloService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import  com.usermanagement.api.entity.Role;
 import  com.usermanagement.api.entity.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class Main {
     public static void main(String[] args) {
         var context = new AnnotationConfigApplicationContext(RootConfig.class);
-        UserRepository repo = context.getBean(UserRepository.class);
+        PasswordEncoder encoder = context.getBean(PasswordEncoder.class);
 
-        User u = new User();
-        u.setName("Alice");
-        u.setEmail("alice@test.com");
-        u.setPassword("temp");
-        u.setRole(Role.ADMIN);
-        repo.save(u);
-
-        System.out.println("Saved id=" + u.getId() + ", createdAt=" + u.getCreatedAt());
-        System.out.println("Exists email? " + repo.existsByEmail("alice@test.com"));
-        System.out.println("Active users: " + repo.findAllByActiveTrue().size());
-
-        u.setActive(false);
-        repo.save(u);
-        System.out.println("Active after deactivation: " + repo.findAllByActiveTrue().size());
+        String hash = encoder.encode("secret123");
+        System.out.println("Hash: " + hash);
+        System.out.println("Matches right? " + encoder.matches("secret123", hash));
+        System.out.println("Matches wrong? " + encoder.matches("wrong", hash));
+        System.out.println("Hash again: " + encoder.encode("secret123"));
         context.close();
     }
 }
