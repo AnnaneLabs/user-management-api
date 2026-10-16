@@ -30,18 +30,18 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserResponse get(@PathVariable Long id) {
+    public UserResponse get(@PathVariable("id") Long id) {
         return userService.findById(id);
     }
 
     @PutMapping("/{id}")
-    public UserResponse update(@PathVariable Long id,
+    public UserResponse update(@PathVariable("id") Long id,
                                @Valid @RequestBody UserUpdateRequest request) {
         return userService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deactivate(@PathVariable Long id) {
+    public ResponseEntity<Void> deactivate(@PathVariable("id") Long id) {
         userService.deactivate(id);
         return ResponseEntity.noContent().build();
     }
